@@ -9,7 +9,9 @@ while True:
         pass
 
 while True: #Loop principal
-    msg = str(arduino.readline())
-    msg = msg[2:-5]
-    print(msg)
+    entradaSerial = str(arduino.readline())[2:-5].split(';')
+    menorTemp = entradaSerial[0]
+    temperatura = entradaSerial[1]
+    maiorTemp = entradaSerial[2]
+    print(f"A temperatura atual é de {temperatura}, com mínima de {menorTemp} e máxima de {maiorTemp}.")
     arduino.flush()
