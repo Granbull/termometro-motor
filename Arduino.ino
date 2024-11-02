@@ -15,7 +15,7 @@ void setup() {
   lcd.print("Estacio 2024-2");
   lcd.setCursor(2, 1);
   lcd.print("Iniciando...");
-  delay(2500);
+  delay(3000);
   lcd.clear();
 }
 void loop() {
@@ -26,15 +26,13 @@ void loop() {
   if (temperatura < menorTemp) {
     menorTemp = temperatura;
   }
-  Serial.print("Temperatura atual: ");
-  Serial.print(temperatura);
-  Serial.println("°c");
-  Serial.print("Mínima: ");
   Serial.print(menorTemp);
-  Serial.print("°C | Máxima: ");
+  Serial.print(";");
+  Serial.print(temperatura);
+  Serial.print(";");
   Serial.print(maiorTemp);
-  Serial.println("°C");
-  Serial.println("----------------------------");
+  Serial.print(";");
+  Serial.println(millis()/1000);
 
   lcd.setCursor(0, 0);
   lcd.print("Min:| Temp |Max:");
