@@ -55,4 +55,3 @@ while True:
                 adjusted_width = (max_length + 2)
                 sheet.column_dimensions[column[0].column_letter].width = adjusted_width
             workbook.save(planilha)
-        time.sleep(120)
