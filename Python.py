@@ -38,20 +38,26 @@ while True:
         }
         linha = pd.DataFrame([temperaturaDF])
         if not linha.isnull().all().all():
-            df = pd.concat([df, linha], ignore_index=True)
-            df.to_excel(planilha, index=False)
+            try:
+                df = pd.concat([df, linha], ignore_index=True)
+                df.to_excel(planilha, index=False)
 
-            workbook = load_workbook(planilha)
-            sheet = workbook.active
-            for column in sheet.columns:
-                max_length = 0
-                column = [cell for cell in column]
-                for cell in column:
-                    try:
-                        if len(str(cell.value)) > max_length:
-                            max_length = len(str(cell.value))
-                    except:
-                        pass
-                adjusted_width = (max_length + 2)
-                sheet.column_dimensions[column[0].column_letter].width = adjusted_width
-            workbook.save(planilha)
+                workbook = load_workbook(planilha)
+                sheet = workbook.active
+                for column in sheet.columns:
+                    max_length = 0
+                    column = [cell for cell in column]
+                    for cell in column:
+                        try:
+                            if len(str(cell.value)) > max_length:
+                                max_length = len(str(cell.value))
+                        except:
+                            pass
+                    adjusted_width = (max_length + 2)
+                    sheet.column_dimensions[column[0].column_letter].width = adjusted_width
+                workbook.save(planilha)
+            except PermissionError:
+                burro = ""
+                while burro != "sou burro":
+                    print(f"A planilha {planilha} já está aberta. Por favor, feche-a e digite 'sou burro' para continuar.")
+                    burro = input()
