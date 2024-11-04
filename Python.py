@@ -1,7 +1,7 @@
 import serial
+from serial.serialutil import SerialException
 import time
 import pandas as pd
-import matplotlib.pyplot as plot
 from openpyxl import load_workbook
 
 planilha = 'temperatura.xlsx'
@@ -10,7 +10,7 @@ try:
 except FileNotFoundError:
     df = pd.DataFrame(columns=['Hora', 'Min', 'Atual', 'Max'])
 
-COM = "COM7"
+COM = "COM8"
 BandaSerial = 9600
 print(f"Tentando conectar com o Arduino... (Porta {COM}, serial {BandaSerial})")
 
@@ -20,7 +20,8 @@ while True:
         print('Arduino conectado com sucesso')
         break
     except:
-        pass
+        print(f"Erro ao conectar, tentando novamente em 2 segundos...")
+        time.sleep(2)
 
 while True:
     if arduino.in_waiting > 0:
@@ -32,9 +33,9 @@ while True:
         arduino.flush()
         temperaturaDF = {
         'Hora': pd.Timestamp.now(),
-        'Min': int(menorTemp),
-        'Atual': int(temperatura),
-        'Max': int(maiorTemp)
+        'Min': float(menorTemp),
+        'Atual': float(temperatura),
+        'Max': float(maiorTemp)
         }
         linha = pd.DataFrame([temperaturaDF])
         if not linha.isnull().all().all():

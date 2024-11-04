@@ -4,8 +4,11 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 Thermistor temp(0);
-int maiorTemp;
-int menorTemp = 9999;
+float maiorTemp;
+float menorTemp = 9999;
+int maiorLCD;
+int menorLCD;
+
 void setup() {
   Serial.begin(9600);
   lcd.init();
@@ -19,13 +22,16 @@ void setup() {
   lcd.clear();
 }
 void loop() {
-  int temperatura = temp.getTemp();
+  float temperatura = temp.getTemp();
   if (temperatura > maiorTemp) {
     maiorTemp = temperatura;
+    maiorLCD = (int)temperatura;
   }
   if (temperatura < menorTemp) {
     menorTemp = temperatura;
+    menorLCD = (int)temperatura;
   }
+
   Serial.print(menorTemp);
   Serial.print(";");
   Serial.print(temperatura);
@@ -38,17 +44,17 @@ void loop() {
   lcd.print("Min:| Temp |Max:");
 
   lcd.setCursor(0, 1);
-  lcd.print(menorTemp);
+  lcd.print(menorLCD);
   lcd.print("\xDF""c|");
 
-  lcd.setCursor(6, 1);
+  lcd.setCursor(5, 1);
   lcd.print(temperatura);
   lcd.print("\xDF""c");
 
   lcd.setCursor(11, 1);
   lcd.print("|");
-  lcd.print(maiorTemp);
+  lcd.print(maiorLCD);
   lcd.print("\xDF""c");
 
-  delay(10000);
+  delay(1000);
 }
